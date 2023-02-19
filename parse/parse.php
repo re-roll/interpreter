@@ -6,8 +6,10 @@
  *Login: xivanu00
  */
 
-require_once "src/lexical_analysis.php";
-require_once "src/syntax_analysis.php";
+require_once("src/Program.php");
+require_once("src/Line.php");
+require_once("src/Instruction.php");
+require_once("src/Output.php");
 
 ini_set('display_errors', 'stderr');
 
@@ -48,16 +50,28 @@ function hasHelp() {
     }
 }
 
-function readLines() {
-    // while ($line = fgets(STDIN)) {
-    //     echo "$line";
-    // }
-    echo "ye\n";
+function read() {
+    $line = fgets(STDIN);
 }
 
 function main() {
     hasHelp();
-    readLines();
+
+    $program = new Program();
+
+    while (($line = new Line()) && !empty($line->content)) {
+        $instruction = new Instruction($line);
+
+        if ($instruction->getName() == ".IPPcode23")
+            $program->setHeader();
+        else
+            $program->setInstruction($instruction);
+        
+        if (!$program->getHeader())
+            exit(HEADER_ERR);
+    }
+
+    var_dump($program);
 }
 
 main();
