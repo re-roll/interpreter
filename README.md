@@ -1,6 +1,8 @@
-# PHP parser
+# Interpreter for custom language IPPcode23
 
 ## Final version: March 2023
+
++ ## `parse.php`
 
 ### Description
 A filter script (parse.php in PHP 8.1) reads the source code in custom language "IPPcode23" from the standard input, checks the lexical and syntactic correctness of the code and writes XML representation of the program to standard.
