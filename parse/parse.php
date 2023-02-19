@@ -50,10 +50,6 @@ function hasHelp() {
     }
 }
 
-function read() {
-    $line = fgets(STDIN);
-}
-
 function main() {
     hasHelp();
 
