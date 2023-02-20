@@ -7,8 +7,6 @@
  */
 
 require_once("src/Program.php");
-require_once("src/Line.php");
-require_once("src/Instruction.php");
 require_once("src/Output.php");
 
 ini_set('display_errors', 'stderr');
@@ -54,18 +52,6 @@ function main() {
     hasHelp();
 
     $program = new Program();
-
-    while (($line = new Line()) && !empty($line->content)) {
-        $instruction = new Instruction($line);
-
-        if ($instruction->getName() == ".IPPcode23")
-            $program->setHeader();
-        else
-            $program->setInstruction($instruction);
-        
-        if (!$program->getHeader())
-            exit(HEADER_ERR);
-    }
 
     var_dump($program);
 }
