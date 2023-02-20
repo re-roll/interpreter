@@ -25,120 +25,41 @@ class Instruction{
     }
 
     public function setArgs($tokens) {
-        $var_regex = "/(LF|TF|GF)@[a-zA-Z_$&%*!?-][a-zA-Z0-9_$&%*!?-]*/";
-        $symb_regex = "/string@([^\s\\]|\\\\[0-9]{3})*|bool@(true|false)|int@[-+]?[0-9]+/";
-        $label_regex = "/[a-zA-Z_$&%*!?-][a-zA-Z0-9_$&%*!?-]*/";
+        $numOfArgs = count($tokens);
 
-        switch (strtoupper($this->opcode)) {
-            case "DEFVAR":
-                if (preg_match($var_regex, $tokens[1])) {
-                    $this->arg1 = new Argument($tokens[1]);
-                    $this->arg1->setType("var");
+        $oneArg = ["DEFVAR", "PUSHS", "WRITE", "EXIT", 
+        "DPRINT", "CALL", "POPS", "LABEL", "JUMP"];
+        $twoArgs = ["MOVE", "INT2CHAR", "STRLEN", "TYPE", "READ"];
+        $threeArgs = ["ADD", "SUB", "MUL", "IDIV", "LT", "GT", "EQ", 
+        "AND", "OR", "NOT", "STRI2INT", "CONCAT", "GETCHAR", "SETCHAR", "JUMPIFEQ", "JUMPIFNEQ"];
+        $noArgs = ["CREATEFRAME", "PUSHFRAME", "POPFRAME", "RETURN", "BREAK",];
+
+        $allArgs = array_merge($oneArg, $twoArgs, $threeArgs, $noArgs);
+
+        foreach ($allArgs as $arg) {
+            if (strtoupper($this->opcode) == $arg)
+                if (in_array(strtoupper($this->opcode), $oneArg)) {
+                    $this->arg1 = ArgumentFactory::createArgument($tokens[1], 1);
+                    if ($numOfArgs > 2)
+                        exit(OPERATION_ERR);
                 }
-                break;
-            case "PUSHS":
-            case "WRITE":
-            case "EXIT":
-            case "DPRINT":
-                if ((preg_match($symb_regex, $tokens[1])) || (preg_match($var_regex, $tokens[1]))) {
-                    $this->arg1 = new Argument($tokens[1]);
-                    $this->arg1->setType("symb");
+                else if (in_array(strtoupper($this->opcode), $twoArgs)) {
+                    $this->arg1 = ArgumentFactory::createArgument($tokens[1], 1);
+                    $this->arg2 = ArgumentFactory::createArgument($tokens[2], 2);
+                    if ($numOfArgs > 3)
+                        exit(OPERATION_ERR);
                 }
-                else exit(LEXICAL_OR_SYNTAX_ERR);
-                break;
-            case "CALL":
-            case "POPS":
-            case "LABEL":
-            case "JUMP":
-                if (preg_match($label_regex, $tokens[1])) {
-                    $this->arg1 = new Argument($tokens[1]);
-                    $this->arg1->setType("label");
+                else if (in_array(strtoupper($this->opcode), $threeArgs)) {
+                    $this->arg1 = ArgumentFactory::createArgument($tokens[1], 1);
+                    $this->arg2 = ArgumentFactory::createArgument($tokens[2], 2);
+                    $this->arg3 = ArgumentFactory::createArgument($tokens[3], 3);
+                    if ($numOfArgs > 4)
+                        exit(OPERATION_ERR);
                 }
-                else exit(LEXICAL_OR_SYNTAX_ERR);
-                break;
-            case "MOVE":
-            case "INT2CHAR":
-            case "STRLEN":
-            case "TYPE":
-                if (preg_match($var_regex, $tokens[1])) {
-                    $this->arg1 = new Argument($tokens[1]);
-                    $this->arg1->setType("var");
-                }
-                else exit(LEXICAL_OR_SYNTAX_ERR);
-                if ((preg_match($symb_regex, $tokens[2])) || (preg_match($var_regex, $tokens[2]))) {
-                    $this->arg2 = new Argument($tokens[2]);
-                    $this->arg2->setType("symb");
-                }
-                else exit(LEXICAL_OR_SYNTAX_ERR);
-                break;
-            case "READ":
-                if (preg_match($var_regex, $tokens[1])) {
-                    $this->arg1 = new Argument($tokens[1]);
-                    $this->arg1->setType("var");
-                }
-                else exit(LEXICAL_OR_SYNTAX_ERR);
-                # Check only symb_regex because only TYPE needed here
-                if (preg_match($symb_regex, $tokens[2])) {
-                    $this->arg2 = new Argument($tokens[2]);
-                    $this->arg2->setType("type");
-                }
-                else exit(LEXICAL_OR_SYNTAX_ERR);
-                break;
-            case "ADD":
-            case "SUB":
-            case "MUL":
-            case "IDIV":
-            case "LT":
-            case "GT":
-            case "EQ":
-            case "AND":
-            case "OR":
-            case "NOT":
-            case "STRI2INT":
-            case "CONCAT":
-            case "GETCHAR":
-            case "SETCHAR":
-                if (preg_match($var_regex, $tokens[1])) {
-                    $this->arg1 = new Argument($tokens[1]);
-                    $this->arg1->setType("var");
-                }
-                else exit(LEXICAL_OR_SYNTAX_ERR);
-                if ((preg_match($symb_regex, $tokens[2])) || (preg_match($var_regex, $tokens[2]))) {
-                    $this->arg2 = new Argument($tokens[2]);
-                    $this->arg2->setType("symb");
-                }
-                else exit(LEXICAL_OR_SYNTAX_ERR);
-                if ((preg_match($symb_regex, $tokens[3])) || (preg_match($var_regex, $tokens[3]))) {
-                    $this->arg3 = new Argument($tokens[3]);
-                    $this->arg3->setType("symb");
-                }
-                else exit(LEXICAL_OR_SYNTAX_ERR);
-                break;
-            case "JUMPIFEQ":
-            case "JUMPIFNEQ":
-                if (preg_match($label_regex, $tokens[1])) {
-                    $this->arg1 = new Argument($tokens[1]);
-                    $this->arg1->setType("label");
-                }
-                else exit(LEXICAL_OR_SYNTAX_ERR);
-                if ((preg_match($symb_regex, $tokens[2])) || (preg_match($var_regex, $tokens[2]))) {
-                    $this->arg2 = new Argument($tokens[2]);
-                    $this->arg2->setType("symb");
-                }
-                else exit(LEXICAL_OR_SYNTAX_ERR);
-                if ((preg_match($symb_regex, $tokens[3])) || (preg_match($var_regex, $tokens[3]))) {
-                    $this->arg3 = new Argument($tokens[3]);
-                    $this->arg3->setType("symb");
-                }
-                else exit(LEXICAL_OR_SYNTAX_ERR);
-                break;
-            case "CREATEFRAME":
-            case "PUSHFRAME":
-            case "POPFRAME":
-            case "RETURN":
-            case "BREAK":
-                break;
-            default:
+                else if (in_array(strtoupper($this->opcode), $noArgs))
+                    if ($numOfArgs > 1)
+                        exit(OPERATION_ERR);
+            else 
                 exit(OPERATION_ERR);
         }
     }

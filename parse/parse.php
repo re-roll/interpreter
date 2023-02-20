@@ -54,6 +54,8 @@ function main() {
     $program = new Program();
 
     var_dump($program);
+
+    exit(0);
 }
 
 main();
