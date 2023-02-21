@@ -2,8 +2,8 @@
 
 class Argument {
 
-    private $type;
-    private $val;
+    public $type;
+    public $val;
 
     public function __construct($arg) {    
         $this->val = $arg;

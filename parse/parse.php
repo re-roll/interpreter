@@ -51,9 +51,10 @@ function hasHelp() {
 function main() {
     hasHelp();
 
-    $program = new Program();
-
-    var_dump($program);
+    $in = new Program();
+    $out = new Output($in);
+    
+    $out->printObj();
 
     exit(0);
 }
