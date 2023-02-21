@@ -28,28 +28,31 @@ class Argument {
 }
 
 abstract class ArgumentFactory {
-    public static function createArgument($token, $pos): Argument {
+    public static function createArgument($token, $type): Argument {
         $var_regex = "/(LF|TF|GF)@[a-zA-Z_$&%*!?-][a-zA-Z0-9_$&%*!?-]*/";
-        $symb_regex = "/string@([^\s\\]|\\\\[0-9]{3})*|bool@(true|false)|int@[-+]?[0-9]+/";
+        $type_regex = "/string@([^\s\\]|\\\\[0-9]{3})*|bool@(true|false)|int@[-+]?[0-9]+/";
         $label_regex = "/[a-zA-Z_$&%*!?-][a-zA-Z0-9_$&%*!?-]*/";
-
-        # WRITE, EXIT, DPRINT, PUSHS ARE NOT GOOD! var instead symb
 
         if ($token == null)
             exit(LEXICAL_OR_SYNTAX_ERR);
         
         $arg = new Argument($token);
-        if ((preg_match($var_regex, $token)) && ($pos == 1)) {
-            $arg->setType("var");
+        if ((preg_match($var_regex, $token)) 
+            && ($type == "var")) {
+            $arg->setType($type);
         }
-        else if ((preg_match($symb_regex, $token)) || (preg_match($var_regex, $token))) {
-            $arg->setType("symb");
+        else if (( (preg_match($type_regex, $token)) 
+                || (preg_match($var_regex, $token))) 
+                && ($type == "symb")) {
+            $arg->setType($type);
         }
-        else if (preg_match($symb_regex, $token)) {
-            $arg->setType("type");
+        else if ((preg_match($type_regex, $token)) 
+                && ($type == "type")) {
+            $arg->setType($type);
         }
-        else if ((preg_match($label_regex, $token)) && ($pos == 1)) {
-            $arg->setType("label");
+        else if ((preg_match($label_regex, $token))
+                && ($type == "label")) {
+            $arg->setType($type);
         }
         else exit(LEXICAL_OR_SYNTAX_ERR);
 
