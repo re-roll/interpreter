@@ -41,48 +41,48 @@ class Instruction{
         foreach ($allArgs as $arg) {
             if (strtoupper($this->opcode) == $arg)
                 if (in_array(strtoupper($this->opcode), $var_)) {
-                    array_push($this->args, ArgumentFactory::createArgument($tokens[1], "var"));
-                    if ($numOfArgs > 2)
+                    if ($numOfArgs != 2)
                         exit(LEXICAL_OR_SYNTAX_ERR);
+                    array_push($this->args, ArgumentFactory::createArgument($tokens[1], "var"));
                 }
                 else if (in_array(strtoupper($this->opcode), $symb_)) {
-                    array_push($this->args, ArgumentFactory::createArgument($tokens[1], "symb"));
-                    if ($numOfArgs > 2)
+                    if ($numOfArgs != 2)
                         exit(LEXICAL_OR_SYNTAX_ERR);
+                    array_push($this->args, ArgumentFactory::createArgument($tokens[1], "symb"));
                 }
                 else if (in_array(strtoupper($this->opcode), $label_)) {
-                    array_push($this->args, ArgumentFactory::createArgument($tokens[1], "label"));
-                    if ($numOfArgs > 2)
+                    if ($numOfArgs != 2)
                         exit(LEXICAL_OR_SYNTAX_ERR);
+                    array_push($this->args, ArgumentFactory::createArgument($tokens[1], "label"));
                 }
                 else if (in_array(strtoupper($this->opcode), $var_type_)) {
+                    if ($numOfArgs != 3)
+                        exit(LEXICAL_OR_SYNTAX_ERR);
                     array_push($this->args, ArgumentFactory::createArgument($tokens[1], "var"));
                     array_push($this->args, ArgumentFactory::createArgument($tokens[2], "type"));
-                    if ($numOfArgs > 3)
-                        exit(LEXICAL_OR_SYNTAX_ERR);
                 }
                 else if (in_array(strtoupper($this->opcode), $var_symb_)) {
+                    if ($numOfArgs != 3)
+                        exit(LEXICAL_OR_SYNTAX_ERR);
                     array_push($this->args, ArgumentFactory::createArgument($tokens[1], "var"));
                     array_push($this->args, ArgumentFactory::createArgument($tokens[2], "symb"));
-                    if ($numOfArgs > 3)
-                        exit(LEXICAL_OR_SYNTAX_ERR);
                 }
                 else if (in_array(strtoupper($this->opcode), $var_symb_symb)) {
+                    if ($numOfArgs != 4)
+                        exit(LEXICAL_OR_SYNTAX_ERR);
                     array_push($this->args, ArgumentFactory::createArgument($tokens[1], "var"));
                     array_push($this->args, ArgumentFactory::createArgument($tokens[2], "symb"));
                     array_push($this->args, ArgumentFactory::createArgument($tokens[3], "symb"));
-                    if ($numOfArgs > 4)
-                        exit(LEXICAL_OR_SYNTAX_ERR);
                 }
                 else if (in_array(strtoupper($this->opcode), $label_symb_symb)) {
+                    if ($numOfArgs != 4)
+                        exit(LEXICAL_OR_SYNTAX_ERR);
                     array_push($this->args, ArgumentFactory::createArgument($tokens[1], "label"));
                     array_push($this->args, ArgumentFactory::createArgument($tokens[2], "symb"));
                     array_push($this->args, ArgumentFactory::createArgument($tokens[3], "symb"));
-                    if ($numOfArgs > 4)
-                        exit(LEXICAL_OR_SYNTAX_ERR);
                 }
                 else if (in_array(strtoupper($this->opcode), $noArgs))
-                    if ($numOfArgs > 1)
+                    if ($numOfArgs != 1)
                         exit(LEXICAL_OR_SYNTAX_ERR);
             else 
                 exit(OPERATION_ERR);

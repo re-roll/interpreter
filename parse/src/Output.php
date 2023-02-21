@@ -11,25 +11,25 @@ class Output {
         
         switch ($argsNum) {
             case 1:
-                echo "\t\t<arg1 type=\"".$arrOfArgs[0]->type."\">\n";
-                echo "\t\t\t".$arrOfArgs[0]->val."\n\t\t</arg1>\n";
+                echo "    <arg1 type=\"".$arrOfArgs[0]->type."\">";
+                echo $arrOfArgs[0]->val."</arg1>\n";
                 break;
             case 2:
-                echo "\t\t<arg1 type=\"".$arrOfArgs[0]->type."\">\n";
-                echo "\t\t\t".$arrOfArgs[0]->val."\n\t\t</arg1>\n";
+                echo "    <arg1 type=\"".$arrOfArgs[0]->type."\">";
+                echo $arrOfArgs[0]->val."</arg1>\n";
                 
-                echo "\t\t<arg2 type=\"".$arrOfArgs[1]->type."\">\n";
-                echo "\t\t\t".$arrOfArgs[1]->val."\n\t\t</arg2>\n";
+                echo "    <arg2 type=\"".$arrOfArgs[1]->type."\">";
+                echo $arrOfArgs[1]->val."</arg2>\n";
                 break;
             case 3:
-                echo "\t\t<arg1 type=\"".$arrOfArgs[0]->type."\">\n";
-                echo "\t\t\t".$arrOfArgs[0]->val."\n\t\t</arg1>\n";
+                echo "    <arg1 type=\"".$arrOfArgs[0]->type."\">";
+                echo $arrOfArgs[0]->val."</arg1>\n";
                 
-                echo "\t\t<arg2 type=\"".$arrOfArgs[1]->type."\">\n";
-                echo "\t\t\t".$arrOfArgs[1]->val."\n\t\t</arg2>\n";
+                echo "    <arg2 type=\"".$arrOfArgs[1]->type."\">";
+                echo $arrOfArgs[1]->val."</arg2>\n";
 
-                echo "\t\t<arg3 type=\"".$arrOfArgs[2]->type."\">\n";
-                echo "\t\t\t".$arrOfArgs[2]->val."\n\t\t</arg3>\n";
+                echo "    <arg3 type=\"".$arrOfArgs[2]->type."\">";
+                echo $arrOfArgs[2]->val."</arg3>\n";
                 break;
             default:
                 exit(INTER_ERR);
@@ -39,9 +39,9 @@ class Output {
     function printInstructions() {
         $arrOfInstrs = $this->program->getInstructions();
         foreach ($arrOfInstrs as $i => $e) {
-            echo "\t<instruction order=".$i."\" opcode=\"".$e->opcode."\">\n";
+            echo "  <instruction order=".$i."\" opcode=\"".$e->opcode."\">\n";
             $this->printArgs($e->getArgs());
-            echo "\t</instruction>\n";
+            echo "  </instruction>\n";
         }
     }
     function printObj() {
