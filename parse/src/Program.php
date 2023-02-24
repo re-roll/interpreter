@@ -3,6 +3,7 @@
 require_once("Instruction.php");
 
 class Program{
+    
     private $header;
     private $instructions;
 
@@ -13,6 +14,7 @@ class Program{
         while (!feof(STDIN)) {
             $line = new Line();
             $line->deleteComments();
+
     
             if (!empty($line->content)) {
                 if ($line->content == ".IPPcode23")
@@ -43,6 +45,7 @@ class Program{
     public function getInstructions() {
         return $this->instructions;
     }
+
 }
 
 ?>

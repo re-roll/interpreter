@@ -28,6 +28,7 @@ class Argument {
 }
 
 abstract class ArgumentFactory {
+
     public static function createArgument($token): Argument {
         $var_regex = "/(LF|TF|GF)@[a-zA-Z_$&%*!?-][a-zA-Z0-9_$&%*!?-]*/";
         $symb_regex = "/string@([^\s\\]|\\\\[0-9]{3})*|bool@(true|false)|int@[-+]?[0-9]+/";
@@ -45,6 +46,7 @@ abstract class ArgumentFactory {
             }
             else if (preg_match($var_regex, $token))
                 $arg->setType("var");
+            else exit(LEXICAL_OR_SYNTAX_ERR);
         }
         else if (preg_match($label_regex, $token)) {
             $arg->setType("label");
@@ -53,6 +55,7 @@ abstract class ArgumentFactory {
 
         return $arg;
     }
+    
 }
 
 ?>
