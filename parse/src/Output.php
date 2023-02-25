@@ -40,7 +40,7 @@ class Output {
     function printInstructions() {
         $arrOfInstrs = $this->program->getInstructions();
         foreach ($arrOfInstrs as $i => $e) {
-            echo " <instruction order=". $i + 1 ."\" opcode=\"".$e->opcode."\">\n";
+            echo " <instruction order=\"". $i + 1 ."\" opcode=\"".$e->opcode."\">\n";
             $this->printArgs($e->getArgs());
             echo " </instruction>\n";
         }

@@ -52,8 +52,26 @@ function main() {
     hasHelp();
 
     $in = new Program();
+
+    while (!feof(STDIN)) {
+        $line = new Line();
+        $line->deleteComments();
+
+
+        if (!empty($line->content)) {
+            if ($line->content == ".IPPcode23")
+                $in->setHeader();
+            else {
+                $instruction = InstructionFactory::createInstruction($line);
+                $in->setInstruction($instruction);
+            }
+
+            if (!$in->getHeader())
+                exit(HEADER_ERR);
+        }
+    }
+
     $out = new Output($in);
-    
     $out->printObj();
 
     exit(0);
