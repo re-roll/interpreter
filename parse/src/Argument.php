@@ -51,6 +51,10 @@ abstract class ArgumentFactory {
         else if ((preg_match($label_regex, $token)) && ($type == "label")){
             $arg->setType("label");
         }
+        else if ($type == "type") {
+            $arg->setType("type");
+            $arg->setVal($token);
+        }
         else exit(LEXICAL_OR_SYNTAX_ERR);
 
         return $arg;
