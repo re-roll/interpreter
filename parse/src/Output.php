@@ -11,6 +11,9 @@ class Output {
         $argsNum = count($arrOfArgs);
         
         switch ($argsNum) {
+            case 0:
+                echo "";
+                break;
             case 1:
                 echo "  <arg1 type=\"".$arrOfArgs[0]->type."\">";
                 echo $arrOfArgs[0]->val."</arg1>\n";

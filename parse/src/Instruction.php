@@ -6,10 +6,11 @@ require_once("Argument.php");
 class Instruction{
     
     public $opcode;
-    public $args = [];
+    public $args;
 
     public function setOpcode($tokens) {
         $this->opcode = $tokens[0];
+        $this->args = [];
     }
 
     public function getOpcode() {
@@ -92,9 +93,10 @@ abstract class InstructionFactory {
                     $instruction->setArgs(ArgumentFactory::createArgument($tokens[2], "symb"));
                     $instruction->setArgs(ArgumentFactory::createArgument($tokens[3], "symb"));
                 }
-                else if (in_array(strtoupper($instruction->opcode), $noArgs))
+                else if (in_array(strtoupper($instruction->opcode), $noArgs)) {
                     if ($numOfArgs != 1)
                         exit(LEXICAL_OR_SYNTAX_ERR);
+                }
             else 
                 exit(OPERATION_ERR);
             }

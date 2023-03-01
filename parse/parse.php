@@ -57,8 +57,6 @@ function main() {
         $line = new Line();
         $line->deleteComments();
 
-        echo ($line->content."\n");
-
         if (!empty($line->content)) {
             if ($line->content == ".IPPcode23")
                 $in->setHeader();
