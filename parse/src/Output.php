@@ -3,13 +3,32 @@
 class Output {
 
     private $program;
-    function __construct(Program $program) {
+    public function __construct(Program $program) {
         $this->program = $program;
     }
 
-    function printArgs($arrOfArgs) {
+    private function printArgs($arrOfArgs) {
         $argsNum = count($arrOfArgs);
-        
+
+        if ($argsNum != 0) {
+            $string_regex = "/[<>&]/";
+            
+            if (($arrOfArgs[0]->type == "string") &&
+            (preg_match($string_regex, $arrOfArgs[0]->val))) {
+                $entities = [
+                    ">" => "&gt;",
+                    "<" => "&lt;",
+                    "&" => "&amp;"
+                ];
+
+                $arrOfArgs[0]->val = preg_replace_callback($string_regex, 
+                    function ($match) use ($entities) {
+                        return $entities[$match[0]];
+                    }
+                , $arrOfArgs[0]->val);
+            }
+        }
+
         switch ($argsNum) {
             case 0:
                 echo "";
@@ -40,7 +59,7 @@ class Output {
         }
     }
 
-    function printInstructions() {
+    private function printInstructions() {
         $arrOfInstrs = $this->program->getInstructions();
         foreach ($arrOfInstrs as $i => $e) {
             echo " <instruction order=\"". $i + 1 ."\" opcode=\"".$e->opcode."\">\n";
@@ -48,7 +67,7 @@ class Output {
             echo " </instruction>\n";
         }
     }
-    function printObj() {
+    public function printObj() {
         echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         echo "<program language=\"IPPcode23\">\n";
         $this->printInstructions();
