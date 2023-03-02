@@ -1,26 +1,42 @@
 <?php
 
+/**
+ * @brief Output (ready XML) class module
+ * @file Output.php
+ * @author Dmitrii Ivanushkin xivanu00
+ */
+
 class Output {
 
     private $program;
+
+    /**
+     * @param Program $program
+     */
     public function __construct(Program $program) {
         $this->program = $program;
     }
 
+    /**
+     * @brief PRIVATE Translate XML characters and print argument layout on output
+     * @param array $arrofArgs
+     */
     private function printArgs($arrOfArgs) {
-        $argsNum = count($arrOfArgs);
+        $cnt= count($arrOfArgs);
 
-        if ($argsNum != 0) {
+        if ($cnt != 0) {
             $string_regex = "/[<>&]/";
             
             if (($arrOfArgs[0]->type == "string") &&
             (preg_match($string_regex, $arrOfArgs[0]->val))) {
+                # List of translateable characters
                 $entities = [
                     ">" => "&gt;",
                     "<" => "&lt;",
                     "&" => "&amp;"
                 ];
 
+                # Translating values using preg_replace_callback() function
                 $arrOfArgs[0]->val = preg_replace_callback($string_regex, 
                     function ($match) use ($entities) {
                         return $entities[$match[0]];
@@ -29,7 +45,9 @@ class Output {
             }
         }
 
-        switch ($argsNum) {
+        # Print exact number of arguments in instruction 
+        # (based on array in Argument class)
+        switch ($cnt) {
             case 0:
                 echo "";
                 break;
@@ -59,6 +77,9 @@ class Output {
         }
     }
 
+    /**
+     * @brief PRIVATE Print instructions and call function to print arguments
+     */
     private function printInstructions() {
         $arrOfInstrs = $this->program->getInstructions();
         foreach ($arrOfInstrs as $i => $e) {
@@ -67,6 +88,10 @@ class Output {
             echo " </instruction>\n";
         }
     }
+
+    /**
+     * @brief Print result
+     */
     public function printObj() {
         echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         echo "<program language=\"IPPcode23\">\n";

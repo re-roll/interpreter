@@ -1,9 +1,9 @@
 <?php
 
-/*
- *Kód k 1. úloze do IPP 2022/2023
- *Jméno a příjmení: Dmitrii Ivanushkin
- *Login: xivanu00
+/**
+ * @brief Main skript k 1. úloze do IPP 2022/2023
+ * @file parse.php
+ * @author Dmitrii Ivanushkin xivanu00
  */
 
 require_once("src/Program.php");
@@ -11,6 +11,7 @@ require_once("src/Output.php");
 
 ini_set('display_errors', 'stderr');
 
+#DEFINE all error codes
 const PARAM_ERR = 10;
 const INPUT_ERR = 11;
 const OUTPUT_ERR = 12;
@@ -19,6 +20,9 @@ const OPERATION_ERR = 22;
 const LEXICAL_OR_SYNTAX_ERR = 23;
 const INTER_ERR = 99;
 
+/**
+ * @brief Prints help
+ */
 function printHelp() {
     echo "Usage: <interpreter> parse.php [--help]\n\n";
 
@@ -35,6 +39,10 @@ function printHelp() {
     echo "    23 - jina lexikalni nebo syntakticka chyba zdrojoveho kodu zapsaneho v IPPcode23\n";
     echo "    99 - interni chyba\n";
 }
+
+/**
+ * @brief Checks if [-h] flag is enabled and if nothing else is specified
+ */
 function hasHelp() {
     global $argc, $argv;
 
@@ -51,8 +59,11 @@ function hasHelp() {
 function main() {
     hasHelp();
 
+    # Create new layout for input data
     $in = new Program();
 
+    # Read till the EOF, delete comments in strings,
+    # check for Header and fill the Program with instructions  
     while (!feof(STDIN)) {
         $line = new Line();
         $line->deleteComments();
@@ -70,6 +81,7 @@ function main() {
         }
     }
 
+    # Print result
     $out = new Output($in);
     $out->printObj();
 

@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @brief Instruction class module
+ * @file Instructuin.php
+ * @author Dmitrii Ivanushkin xivanu00
+ */
+
 require_once("Line.php");
 require_once("Argument.php");
 
@@ -8,9 +14,12 @@ class Instruction{
     public $opcode;
     public $args;
 
+    public function __construct() {
+        $this->args = [];
+    }
+
     public function setOpcode($tokens) {
         $this->opcode = $tokens[0];
-        $this->args = [];
     }
 
     public function getOpcode() {
@@ -27,16 +36,32 @@ class Instruction{
 
 }
 
+
+/**
+ * @brief Abstract class (Factory design pattern)
+ */
 abstract class InstructionFactory {
 
+    /**
+     * @brief Fill in instruction based on input parameters
+     * 
+     * One line -> one instruction
+     * Explodes the string, checks if first word is instruction,
+     * and based on task specification creates exact number of arguments for it
+     * 
+     * @param Line $line
+     */
     public static function createInstruction(Line $line): Instruction {
         $instruction = new Instruction();
 
+        # Array of words in line
         $tokens = explode(" ", $line->content);
         $numOfArgs = count($tokens);
 
+        # setOpcode will sets a name of instruction with a 0 element of tokens
         $instruction->setOpcode($tokens);
 
+        # Group instrunction names based on specification
         $var_ = ["DEFVAR", "POPS"];
         $symb_ = ["PUSHS", "WRITE", "EXIT", "DPRINT"];
         $label_ = ["CALL", "LABEL", "JUMP"];
@@ -50,11 +75,14 @@ abstract class InstructionFactory {
         $allArgs = array_merge($var_, $symb_, $label_, 
         $var_type_, $var_symb_, $var_symb_symb, $label_symb_symb, $noArgs);
 
+        # Checks if instruction exists
         foreach ($allArgs as $arg) {
+            # Instruction could be either capital or small, so I use strtoupper()
             if (strtoupper($instruction->opcode) == $arg) {
                 if (in_array(strtoupper($instruction->opcode), $var_)) {
                     if ($numOfArgs != 2)
                         exit(LEXICAL_OR_SYNTAX_ERR);
+                    # Push argument, created with its class Factory to an array
                     $instruction->setArgs(ArgumentFactory::createArgument($tokens[1], "var"));
                 }
                 else if (in_array(strtoupper($instruction->opcode), $symb_)) {
