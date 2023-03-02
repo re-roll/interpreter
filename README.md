@@ -15,3 +15,7 @@ Parser-specific error return codes:
 + 21 - wrong or missing header in the source code written in IPPcode23;
 + 22 - unknown or incorrect operation code in the source code written in IPPcode23;
 + 23 - other lexical or syntactic error of the source code written in IPPcode23.
+
+Alternatively you can run tests on this script with `php test.php` command inside root tree
+
+CURRENT_STATE: `Tests finished with no failed tests and 1043 passed tests`
