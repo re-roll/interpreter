@@ -6,8 +6,8 @@
  * @author Dmitrii Ivanushkin xivanu00
  */
 
-require_once("./Program.php");
-require_once("./Output.php");
+require_once "src/Program.php";
+require_once "src/Output.php";
 
 ini_set('display_errors', 'stderr');
 
