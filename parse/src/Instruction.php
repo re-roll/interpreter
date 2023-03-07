@@ -6,8 +6,8 @@
  * @author Dmitrii Ivanushkin xivanu00
  */
 
-require_once("Line.php");
-require_once("Argument.php");
+require_once(realpath(dirname(__FILE__)) . "/Line.php");
+require_once(realpath(dirname(__FILE__)) . "/Argument.php");
 
 class Instruction{
     
