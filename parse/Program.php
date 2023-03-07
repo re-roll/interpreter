@@ -6,7 +6,7 @@
  * @author Dmitrii Ivanushkin xivanu00
  */
 
-require_once(realpath(dirname(__FILE__)) . "/Instruction.php");
+require_once("./Instruction.php");
 
 class Program{
     

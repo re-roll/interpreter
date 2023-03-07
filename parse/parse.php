@@ -6,8 +6,8 @@
  * @author Dmitrii Ivanushkin xivanu00
  */
 
-require_once(realpath(dirname(__FILE__)) . "/src/Program.php");
-require_once(realpath(dirname(__FILE__)) . "/src/Output.php");
+require_once("./Program.php");
+require_once("./Output.php");
 
 ini_set('display_errors', 'stderr');
 
