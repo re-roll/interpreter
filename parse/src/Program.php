@@ -6,7 +6,7 @@
  * @author Dmitrii Ivanushkin xivanu00
  */
 
-require_once "Instruction.php";
+include "Instruction.php";
 
 class Program{
     

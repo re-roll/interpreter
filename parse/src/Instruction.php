@@ -6,8 +6,8 @@
  * @author Dmitrii Ivanushkin xivanu00
  */
 
-require_once "Line.php";
-require_once "Argument.php";
+include "Line.php";
+include "Argument.php";
 
 class Instruction{
     
