@@ -6,7 +6,7 @@
  * @author Dmitrii Ivanushkin xivanu00
  */
 
-include "Instruction.php";
+require __DIR__."/Instruction.php";
 
 class Program{
     

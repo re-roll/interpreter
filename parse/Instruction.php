@@ -6,8 +6,8 @@
  * @author Dmitrii Ivanushkin xivanu00
  */
 
-include "Line.php";
-include "Argument.php";
+require __DIR__."/Line.php";
+require __DIR__."/Argument.php";
 
 class Instruction{
     

@@ -6,8 +6,8 @@
  * @author Dmitrii Ivanushkin xivanu00
  */
 
-include "src/Program.php";
-include "src/Output.php";
+require __DIR__."/Program.php";
+require __DIR__."/Output.php";
 
 ini_set('display_errors', 'stderr');
 
